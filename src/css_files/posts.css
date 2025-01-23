@@ -1,0 +1,48 @@
+#addpost{
+    background-color: rgb(255, 0, 0);
+    width: 300px;
+    height: 300px;
+}
+#deletPost, #chackPost{
+    background-color: aqua;
+    padding: 3px;
+    width: 100%;
+    border: 1px black solid;
+    height: 15%;
+}
+#postcontent{
+    height: 70%;
+}
+#singlePost{
+    border: 1px solid rgb(245, 234, 255);
+    height: 200px;
+    width: 300px;
+    background-color: rgba(240, 248, 255, 0.649);
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+
+#search{
+   width: 70%; 
+}
+#posts-container{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 70%;
+}
+
+#selectad-post{
+    background-color: blueviolet;
+    position: relative;
+    right: 0;
+    top: 0;
+    border: 3px red solid;
+    width: 30%;
+}
+
+#Show-comments{
+    background-color: blue;
+    width: 100%;
+    height: 30px;
+}

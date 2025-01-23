@@ -1,4 +1,4 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -43,15 +43,13 @@
 
 
 /* styles.css */
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f5;
-  margin: 0;
-  padding: 0;
-  display: flex;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #e9ecef;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  background-image: url("../src/img/product25_image1_2021-03-29_11-55-52.jpg");
 }
 
 h1 {
@@ -113,4 +111,4 @@ p {
   color: red;
   text-align: center;
   margin: 0;
-}
+} 
