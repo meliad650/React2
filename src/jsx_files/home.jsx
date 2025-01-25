@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 import '../css_files/home.css';  // קישור לקובץ ה-CSS
 // import Info from './Info';
-// import Todos from './Todos';
+ import Todos from './todos';
  import Posts from './Posts';
-// import Albums from './Albums';
+import Info from './Info';
+// import AlbumDetail from './AlbumDetails'; 
 
-const Home = ({ userName }) => {
+const Home = () => {
   const [activeComponent, setActiveComponent] = useState(''); // משתנה סטייט לבחירת הקומפוננטה המוצגת
-
+const userName=JSON.parse(localStorage.getItem("loggedInUser")).name;
+console.log("userName");
   // פונקציה להחזיר את הקומפוננטה הנוכחית
   const renderComponent = () => {
     switch (activeComponent) {
-      // case 'Info':
-      //   return <Info />;
-      // case 'Todos':
-      //   return <Todos />;
+      case 'Info':
+        return <Info />;
+       case 'Todos':
+         return <Todos />;
       case 'Posts':
         return <Posts />;
       // case 'Albums':
-      //   return <Albums />;
+      //   return <AlbumDetail />;
       default:
         return <p>בחר אופציה מתפריט הניווט.</p>;
     }
@@ -27,7 +29,7 @@ const Home = ({ userName }) => {
   return (
     <div className="home-container">
       <header className="home-header">
-        <h1>ברוך הבא, {userName}</h1>
+        <h1>wellcome {userName}</h1>
       </header>
 
       <nav className="nav-bar">

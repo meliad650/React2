@@ -28,7 +28,7 @@ function LoginComponent() {
       console.log(users);
       // בדיקה אם המשתמש קיים בנתונים מהשרת
       const user = users.find(
-        (u) => u.name === username && u.website === password
+        (u) => u.email === username && u.website === password
       );
 
       if (user) {

@@ -1,61 +1,13 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-
-/* styles.css */
 
 body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
   background-color: #e9ecef;
   justify-content: center;
   align-items: center;
-  background-image: url("../src/img/product25_image1_2021-03-29_11-55-52.jpg");
+  /* background-image: url("../src/img/product25_image1_2021-03-29_11-55-52.jpg"); */
 }
+/* 
 
-h1 {
-  text-align: center;
-  color: #333;
-}
 
 form {
   background: #fff;
@@ -89,8 +41,8 @@ input:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
-}
-
+} */
+/* 
 button {
   width: 100%;
   padding: 10px;
@@ -104,11 +56,14 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  backgrh1 {
+  text-align: center;
+  color: #333;
+}ound-color: #0056b3;
 }
 
 p {
   color: red;
   text-align: center;
   margin: 0;
-} 
+}  */
