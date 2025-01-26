@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import '../css_files/home.css';  // קישור לקובץ ה-CSS
-// import Info from './Info';
  import Todos from './todos';
  import Posts from './Posts';
 import Info from './Info';
-// import AlbumDetail from './AlbumDetails'; 
+ import AlbumDetail from './AlbumDetails'; 
 
 const Home = () => {
   const [activeComponent, setActiveComponent] = useState(''); // משתנה סטייט לבחירת הקומפוננטה המוצגת
@@ -19,8 +18,8 @@ console.log("userName");
          return <Todos />;
       case 'Posts':
         return <Posts />;
-      // case 'Albums':
-      //   return <AlbumDetail />;
+      case 'Albums':
+        return <AlbumDetail />;
       default:
         return <p>בחר אופציה מתפריט הניווט.</p>;
     }
