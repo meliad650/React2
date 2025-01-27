@@ -1,0 +1,42 @@
+.photos-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* תמיד 4 עמודות */
+    gap: 20px; /* רווחים בין התמונות */
+    justify-content: center;
+  }
+  
+  .photo-item {
+    text-align: center;
+  }
+  
+  .photo-item img {
+    width: 100%; /* התאמה לגודל המיכל */
+    height: auto; /* שמירה על פרופורציות */
+    border-radius: 8px; /* פינות מעוגלות */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* צל קל */
+  }
+  
+  .load-more-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .load-more-button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .load-more-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .load-more-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  

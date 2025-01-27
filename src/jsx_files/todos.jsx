@@ -8,8 +8,9 @@ function Todos() {
   const [searchCriteria, setSearchCriteria] = useState('id'); // קריטריון חיפוש
   const [sortCriteria, setSortCriteria] = useState('id'); // קריטריון מיון
   const [newTodoTitle, setNewTodoTitle] = useState(''); // כותרת הפריט החדש
-
-  // טעינת ה-TODOS מהשרת
+  const userId=JSON.parse(localStorage.getItem("loggedInUser")).id;
+  
+  // טעינת ה-TODOS מהשרת 
   useEffect(() => {
     fetch('http://localhost:3000/todos')
       .then((response) => response.json())
@@ -17,6 +18,7 @@ function Todos() {
       .catch((error) => console.error('Error fetching todos:', error));
   }, []);
 
+  
   // טיפול במיון
   const sortTodos = (todos) => {
     switch (sortCriteria) {
