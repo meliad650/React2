@@ -66,6 +66,7 @@ const AlbumsPage = () => {
       });
   };
 
+  
   const handleAlbumClick = (albumId) => {
     setSelectedAlbum(albumId);
     setPhotos([]);

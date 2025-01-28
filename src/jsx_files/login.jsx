@@ -230,11 +230,14 @@
 
 // export default LoginComponent;
 import React, { useState } from 'react';
+import { Link,useNavigate } from 'react-router-dom';
+import { useHref } from "react-router-dom";
 
 function LoginComponent({ setActiveComponent }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -265,7 +268,7 @@ function LoginComponent({ setActiveComponent }) {
         localStorage.setItem('loggedInUser', JSON.stringify(user));
 
         setError(''); // איפוס הודעת השגיאה
-        setActiveComponent('home'); // מעבר לעמוד הבית
+        navigate('/home');
       } else {
         setError('שם משתמש או סיסמה אינם נכונים');
       }
@@ -274,16 +277,14 @@ function LoginComponent({ setActiveComponent }) {
     }
   };
 
-  const handleNavigateToRegister = () => {
-    setActiveComponent('register');
-  };
+
 
   return (
     <div>
       <h1>התחברות</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">שם משתמש:</label>
+          <label htmlFor="username" >שם משתמש:</label>
           <input
             type="text"
             id="username"
@@ -302,9 +303,11 @@ function LoginComponent({ setActiveComponent }) {
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit">התחבר</button>
-        <button type="button" onClick={handleNavigateToRegister}>
-          לחץ כאן להרשמה
-        </button>
+        <Link to="/register"><button type="button"> 
+         לחץ כאן להרשמה 
+         </button></Link>
+
+        
       </form>
     </div>
   );

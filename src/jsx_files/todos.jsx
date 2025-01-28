@@ -135,18 +135,14 @@ function Todos() {
   
   // עדכון מצב ביצוע
   const toggleCompletion = async (id) => {
-    // מציאת המשימה המתאימה
     const todoToUpdate = todos.find((todo) => todo.id === id);
-  
     if (!todoToUpdate) {
       alert("Todo not found!");
       return;
     }
-  
     const updatedCompletedStatus = !todoToUpdate.completed;
   
     try {
-      // עדכון מצב הביצוע בשרת
       const response = await fetch(`http://localhost:3000/todos/${id}`, {
         method: "PATCH",
         headers: {
@@ -156,7 +152,6 @@ function Todos() {
       });
   
       if (response.ok) {
-        // עדכון התצוגה בזמן אמת
         setTodos((prevTodos) =>
           prevTodos.map((todo) =>
             todo.id === id ? { ...todo, completed: updatedCompletedStatus } : todo
@@ -180,7 +175,6 @@ function Todos() {
     }
   
     try {
-      // שליחת בקשת PATCH לשרת לעדכון הכותרת
       const response = await fetch(`http://localhost:3000/todos/${id}`, {
         method: "PATCH",
         headers: {

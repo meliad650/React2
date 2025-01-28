@@ -39,4 +39,8 @@
     background-color: #cccccc;
     cursor: not-allowed;
   }
+
+  button{
+   background-color: rgb(219, 80, 105);
+  }
   

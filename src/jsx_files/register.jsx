@@ -466,7 +466,7 @@
 // export default RegisterComponent;
 
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 function RegisterComponent({ setActiveComponent }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -582,7 +582,7 @@ function RegisterComponent({ setActiveComponent }) {
             username: formData.username,
             email: formData.email,
             phone: formData.phone,
-            website: formData.website,
+            website: formData.password,
             address: {
               street: formData.street,
               suite: formData.suite,
@@ -598,7 +598,6 @@ function RegisterComponent({ setActiveComponent }) {
               catchPhrase: formData.catchPhrase,
               bs: formData.bs
             },
-            password: formData.password,
           };
     
           const addUserResponse = await fetch('http://localhost:3000/users', {
@@ -631,9 +630,9 @@ function RegisterComponent({ setActiveComponent }) {
         }
       };
 
-  const handleNavigateToLogin = () => {
-    setActiveComponent('login');
-  };
+  // const handleNavigateToLogin = () => {
+  //   setActiveComponent('login');
+  // };
 
    return (
     <div>
@@ -694,9 +693,9 @@ function RegisterComponent({ setActiveComponent }) {
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit">הירשם</button>
-        <button type="button" onClick={handleNavigateToLogin}>
-          לחץ כאן להתחברות
-        </button>
+        <Link to="/login"><button type="button"> 
+         לחץ כאן להתחברות 
+         </button></Link>
       </form>
     </div>
   );

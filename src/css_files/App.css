@@ -6,7 +6,8 @@ body {
   align-items: center;
   /* background-image: url("../src/img/product25_image1_2021-03-29_11-55-52.jpg"); */
 }
-/* 
+
+
 
 
 form {
@@ -41,8 +42,7 @@ input:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
-} */
-/* 
+} 
 button {
   width: 100%;
   padding: 10px;
@@ -66,4 +66,4 @@ p {
   color: red;
   text-align: center;
   margin: 0;
-}  */
+}  

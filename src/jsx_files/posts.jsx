@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../css_files/posts.css';
+import { data } from 'react-router-dom';
 
 const Posts = ({ userName }) => {
-  const username = JSON.parse(localStorage.getItem("loggedInUser"))?.username || "אורח";
-
+  const current = JSON.parse(localStorage.getItem("loggedInUser"));
   const [posts, setPosts] = useState([]);
+  const [comments, setComment] = useState([]);
   const [displayedPosts, setDisplayedPosts] = useState([]);
   const [postsToShow, setPostsToShow] = useState(10);
   const [allPostsLoaded, setAllPostsLoaded] = useState(false);
@@ -12,15 +13,26 @@ const Posts = ({ userName }) => {
   const [newPost, setNewPost] = useState({ title: '', body: '' });
   const [search, setSearch] = useState('');
   const [newComment, setNewComment] = useState('');
-
+  const [newCommentTitle, setNewCommentTitle] = useState('');
   // Fetch posts from server
   useEffect(() => {
     fetch('http://localhost:3000/posts?_embed=comments')
       .then(response => response.json())
       .then(data => {
-        const sortedPosts = data.sort((a, b) => b.id - a.id); // Sort posts by ID (newest first)
+        const sortedPosts = data.sort((a, b) => a.id - b.id); // Sort posts by ID (newest first)
         setPosts(sortedPosts);
         setDisplayedPosts(sortedPosts.slice(0, postsToShow));
+      })
+      .catch(error => console.error('Error fetching posts:', error));
+  }, []);
+
+  // Fetch comments from server
+  useEffect(() => {
+    fetch('http://localhost:3000/comments')
+      .then(response => response.json())
+      .then(data => {
+        const sortedcomments = data.sort((a, b) => b.id - a.id); // Sort posts by ID (newest first)
+        setComment(sortedcomments);
       })
       .catch(error => console.error('Error fetching posts:', error));
   }, []);
@@ -44,21 +56,29 @@ const Posts = ({ userName }) => {
     }
   };
 
+
   // Add comment to a post
   const handleAddComment = (postId) => {
-    const comment = {
-      postId,
-      id: Date.now().toString(),
-      body: newComment,
-      name: 'User Name',
-      email: 'user@example.com',
-    };
+    fetch('http://localhost:3000/comments')
+      .then(response => response.json())
+      .then(comments => {
+        const maxCommentId = comments.reduce((maxId, comment) => Math.max(maxId, comment.id), 0); // Find max ID
+        const newCommentId = maxCommentId + 1;
 
-    fetch('http://localhost:3000/comments', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(comment),
-    })
+        const comment = {
+          postId: postId,
+          id: newCommentId,
+          name: newCommentTitle,
+          email: current.email,
+          body: newComment,
+        };
+
+        return fetch('http://localhost:3000/comments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(comment),
+        });
+      })
       .then(response => response.json())
       .then(newCommentData => {
         setPosts(prevPosts => {
@@ -73,14 +93,28 @@ const Posts = ({ userName }) => {
           });
         });
         setNewComment('');
+        setNewCommentTitle('');
       })
       .catch(error => console.error('Error adding comment:', error));
   };
 
-  // Add a new post
-  const handleAddPost = () => {
-    const newPostData = { title: newPost.title, body: newPost.body, userId: 1 };
 
+
+
+  const handleAddPost = () => {
+    // Find the highest existing ID in the posts array
+    const highestId = posts.reduce((maxId, post) => Math.max(maxId, parseInt(post.id, 10)), 0);
+    const newPostId = highestId + 1;
+    console.log(newPostId);
+    // Prepare the new post data
+    const newPostData = {
+      userId: current.id,
+      id: newPostId.toString(),
+      title: newPost.title,
+      body: newPost.body,
+    };
+
+    // Save the new post to the server
     fetch('http://localhost:3000/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -88,6 +122,7 @@ const Posts = ({ userName }) => {
     })
       .then(response => response.json())
       .then(data => {
+        // Update the posts state with the new post
         const updatedPosts = [data, ...posts];
         setPosts(updatedPosts);
         setDisplayedPosts(updatedPosts.slice(0, displayedPosts.length + 1));
@@ -95,6 +130,68 @@ const Posts = ({ userName }) => {
       })
       .catch(error => console.error('Error adding post:', error));
   };
+
+
+
+
+  const deletePost = async (id) => {
+    try {
+      // שליחת בקשת DELETE לשרת
+      const response = await fetch(`http://localhost:3000/posts/${id}`, {
+        method: "DELETE",
+      });
+  
+      if (response.ok) {
+        // עדכון ה-state לאחר המחיקה
+        const updatedPosts = posts.filter((post) => post.id !== id);
+        setPosts(updatedPosts); // עדכון המצב של כל הפוסטים
+        setDisplayedPosts(updatedPosts.slice(0, displayedPosts.length)); // עדכון הפוסטים המוצגים
+  
+        alert("Post deleted successfully!");
+      } else {
+        alert("Failed to delete post. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      alert("An error occurred while deleting the post.");
+    }
+  };
+
+  
+  const updateBody = async (id, newBody) => {
+    if (!newBody.trim()) {
+      alert("Please enter a valid body.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3000/posts/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ body: newBody }),
+      });
+
+      if (response.ok) {
+        // עדכון התצוגה בזמן אמת
+        setPosts((prevData) =>
+          prevData.map((post) =>
+            post.id === id ? { ...post, body: newBody } : post
+          )
+        );
+        alert("post Body updated successfully!");
+      } else {
+        alert("Failed to update body on the server. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating body:", error);
+      alert("An error occurred while updating the body.");
+    }
+  };
+
+
+
 
   // Search posts
   const handleSearch = (e) => {
@@ -105,10 +202,10 @@ const Posts = ({ userName }) => {
     setDisplayedPosts(filtered.slice(0, postsToShow));
   };
 
+
   return (
     <div>
-      <h2 style={headingStyle}>פוסטים של {userName}</h2>
-
+      <h2 style={headingStyle}>פוסטים</h2>
       <input
         type="text"
         placeholder="חפש פוסט לפי כותרת"
@@ -151,12 +248,23 @@ const Posts = ({ userName }) => {
                 <p style={textStyle}>{post.body}</p>
                 <h4>תגובות:</h4>
                 <ul>
-                  {post.comments?.map(comment => (
-                    <li key={comment.id} style={commentStyle}>{comment.body}</li>
-                  ))}
+                  {comments
+                    ?.filter(comment => comment.postId == post.id) // סינון לפי post.id
+                    .map(comment => (
+                      <li key={comment.id} style={commentStyle}>
+                        <h5>{comment.name}</h5>
+                        <p id="comP">{comment.body}</p>
+                      </li>
+                    ))}
                 </ul>
+
+                <input type="text"
+                  value={newCommentTitle}
+                  onChange={(e) => setNewCommentTitle(e.target.value)}
+                  placeholder="כותרת תגובה"
+                />
                 <textarea
-                  placeholder="הוסף תגובה"
+                  placeholder="תוכן תגובה"
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                   style={textareaStyle}
@@ -164,6 +272,21 @@ const Posts = ({ userName }) => {
                 <button onClick={() => handleAddComment(post.id)} style={buttonStyle}>
                   הוסף תגובה
                 </button>
+
+                {post.userId == current.id && (
+                  <>
+                  <button onClick={() => deletePost(post.id)} style={buttonStyle}>
+                    מחיקת פוסט
+                  </button>
+                  <button
+                  onClick={() => {
+                    const newBody = prompt('Enter new title:', post.name);
+                    if (newBody) updateBody(post.id, newBody);
+                  }}
+                >
+                  ערוך פוסט
+                </button></>
+                )}
               </div>
             )}
           </div>
@@ -251,13 +374,14 @@ const textareaStyle = {
 };
 
 const buttonStyle = {
-  padding: '10px 20px',
+  padding: '10px 10px',
   backgroundColor: '#6200ea',
   color: '#fff',
-  border: 'none',
   borderRadius: '8px',
   cursor: 'pointer',
   fontSize: '16px',
+  margin: '1px',
+
 };
 
 const expandButtonStyle = {
@@ -265,9 +389,11 @@ const expandButtonStyle = {
   backgroundColor: '#f0f0f0',
   color: 'black',
   marginLeft: '10px',
+  width: '70px',
 };
 
 const commentStyle = {
+
   color: 'black',
   marginBottom: '5px',
 };

@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import '../css_files/home.css';  // קישור לקובץ ה-CSS
- import Todos from './todos';
- import Posts from './Posts';
+import Todos from './todos';
+import Posts from './Posts';
 import Info from './Info';
- import AlbumDetail from './AlbumDetails'; 
+import AlbumDetail from './AlbumDetails';
+import { Link, useNavigate } from 'react-router-dom';
+import { useHref } from "react-router-dom";
 
 const Home = () => {
   const [activeComponent, setActiveComponent] = useState(''); // משתנה סטייט לבחירת הקומפוננטה המוצגת
-const userName=JSON.parse(localStorage.getItem("loggedInUser")).name;
-console.log("userName");
-  // פונקציה להחזיר את הקומפוננטה הנוכחית
+  const userName = JSON.parse(localStorage.getItem("loggedInUser")).name;
+  console.log("userName");
+  const navigate = useNavigate();
+
   const renderComponent = () => {
     switch (activeComponent) {
       case 'Info':
         return <Info />;
-       case 'Todos':
-         return <Todos />;
+      case 'Todos':
+        return <Todos />;
       case 'Posts':
         return <Posts />;
       case 'Albums':
@@ -39,9 +42,8 @@ console.log("userName");
         <button
           onClick={() => {
             localStorage.setItem('loggedInUser', '');
-            window.location.reload(); // רענון העמוד ליציאה מהחשבון
-          }}
-        >
+            navigate('/login');
+          }} >
           Logout
         </button>
       </nav>

@@ -44,7 +44,7 @@
   /* כפתורים */
   .todo-actions button {
     border: none;
-    background-color: #007bff;
+    background-color: #931851;
     color: white;
     padding: 5px 10px;
     border-radius: 5px;
@@ -53,7 +53,7 @@
   }
   
   .todo-actions button:hover {
-    background-color: #0056b3;
+    background-color: #964274;
   }
   
   /* צ'קבוקס */
@@ -112,7 +112,7 @@
   }
   
   .control-group input[type="text"]:focus {
-    border-color: #007bff;
+    border-color: #6c0f42;
   }
   
   /* תפריטים נפתחים */
@@ -129,7 +129,7 @@
   }
   
   .control-group select:focus {
-    border-color: #007bff;
+    border-color: #760945;
   }
   
   /* כפתורים */
@@ -137,8 +137,9 @@
     padding: 10px 15px;
     font-size: 1em;
     color: white;
-    background-color: #007bff;
+    background-color: #822659;
     border: none;
+    width: 75px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s;
