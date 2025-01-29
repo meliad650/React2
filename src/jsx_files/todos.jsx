@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "../css_files/todos.css"
 
 function Todos() {
+  const current = JSON.parse(localStorage.getItem("loggedInUser"));
 
   const [todos, setTodos] = useState([]); // רשימת ה-TODOS
   const [searchTerm, setSearchTerm] = useState(''); // מונח החיפוש
@@ -248,27 +249,30 @@ function Todos() {
 
       {/* רשימת TODOS */}
       <div className="todos-container">
-        {displayedTodos.map((todo) => (
-          <div key={todo.id} className="todo-item">
-            <div className="todo-title">#{todo.id}: {todo.title}</div>
-            <div className="todo-actions">
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => toggleCompletion(todo.id)}
-              />
-              <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-              <button
-                onClick={() => {
-                  const newTitle = prompt('Enter new title:', todo.title);
-                  if (newTitle) updateTitle(todo.id, newTitle);
-                }}
-              >
-                Edit
-              </button>
-            </div>
-          </div>
-        ))}
+      {displayedTodos
+  .filter((todo) => todo.userId == current.id)
+  .map((todo) => (
+    <div key={todo.id} className="todo-item">
+      <div className="todo-title">#{todo.id}: {todo.title}</div>
+      <div className="todo-actions">
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={() => toggleCompletion(todo.id)}
+        />
+        <button onClick={() => deleteTodo(todo.id)}>מחיקה</button>
+        <button
+          onClick={() => {
+            const newTitle = prompt('Enter new title:', todo.title);
+            if (newTitle) updateTitle(todo.id, newTitle);
+          }}
+        >
+          עריכה
+        </button>
+      </div>
+    </div>
+  ))}
+
       </div>
 
     </div>
